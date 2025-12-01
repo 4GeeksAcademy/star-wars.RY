@@ -1,32 +1,46 @@
-export const initialStore=()=>{
-  return{
-    message: null,
-    todos: [
-      {
-        id: 1,
-        title: "Make the bed",
-        background: null,
+export const getState = ({getStore,getActions,setStore}) => {
+  return {
+    store: {
+      people:[],
+      planets:[],
+      vehicles:[],
+      favorites:[],
+      loading: true
+    },
+    actions:{
+      loadData: async() => {
+        const API_URL = "https://www.swapi.tech/api";
+        try {
+          const[peopleStar,planetStar,vehiclesStar] = await Promise.all ([
+            fetch(`${API_URL}/people/`),
+            fetch(`${API_URL}/planets/`),
+            fetch(`${API_URL}/vehicles/`),
+          ]);
+
+          const peopleData = await peopleStar.json();
+          const planetData = await planetStar.json();
+          const vehiclesData = await vehiclesStar.json();
+
+          setStore({
+            people: peopleData.results,
+            planets: planetData.results,
+            vehicles: vehiclesData.results,
+            loading: false
+          });
+        } catch(error) {
+          console.error("Error Loading data", error);
+        }
       },
-      {
-        id: 2,
-        title: "Do my homework",
-        background: null,
+      addFavorite: (item) => {
+        const store = getStore();
+        const exist = store.favorites.find(fav => fav.uid === item.uid);
+        if(exist) return;
+        setStore({favorites:[...store.favorites,item]});
+      },
+      removeFavorite: (uid) => {
+        const store = getStore();
+        setStore({favorites: store.favorites.filter(fav => fav.uid !== uid)});
       }
-    ]
+    }
   }
-}
-
-export default function storeReducer(store, action = {}) {
-  switch(action.type){
-    case 'add_task':
-
-      const { id,  color } = action.payload
-
-      return {
-        ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
-      };
-    default:
-      throw Error('Unknown action.');
-  }    
 }
