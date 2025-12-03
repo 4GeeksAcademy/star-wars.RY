@@ -7,7 +7,6 @@ export const Navbar = () => {
 
     return (
         <nav className="navbar navbar-light bg-light mb-3 px-4">
-            {/* 1. LOGO A LA IZQUIERDA */}
             <Link to="/">
                 <span className="navbar-brand mb-0 h1">
                     <img 
@@ -18,7 +17,6 @@ export const Navbar = () => {
                 </span>
             </Link>
             
-            {/* 2. BOTÓN DE FAVORITOS A LA DERECHA */}
             <div className="ml-auto">
                 <div className="dropdown">
                     <button 
@@ -35,14 +33,12 @@ export const Navbar = () => {
                     </button>
                     
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        {/* Si no hay favoritos, mostramos (Empty) */}
                         {store.favorites.length === 0 ? (
                             <li className="dropdown-item text-center">(Empty)</li>
                         ) : (
                             // Mapeamos los favoritos
                             store.favorites.map((fav, index) => (
                                 <li key={index} className="dropdown-item d-flex justify-content-between align-items-center">
-                                    {/* Link al detalle del favorito */}
                                     <Link 
                                         to={`/single/${fav.type}/${fav.uid}`} 
                                         className="text-decoration-none text-dark"
@@ -50,12 +46,11 @@ export const Navbar = () => {
                                         {fav.name}
                                     </Link>
                                     
-                                    {/* Ícono de Basura para borrar */}
                                     <i 
                                         className="fas fa-trash-alt ms-2 text-danger" 
                                         style={{ cursor: "pointer" }}
                                         onClick={(e) => {
-                                            e.stopPropagation(); // Evita que el dropdown se cierre al borrar
+                                            e.stopPropagation(); 
                                             dispatch({ type: "delete_favorite", payload: fav });
                                         }}
                                     ></i>

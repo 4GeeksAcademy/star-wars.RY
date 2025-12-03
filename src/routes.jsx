@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo"; // Opcional, si la usas
+import { Demo } from "./pages/Demo";
 
 export const router = createBrowserRouter([
     {
@@ -11,19 +11,21 @@ export const router = createBrowserRouter([
         element: <Layout />,
         errorElement: <h1>Not found!</h1>,
         children: [
-            // Ruta principal (Home)
+            // 1. Ruta Principal (Home)
             {
                 path: "/",
                 element: <Home />,
             },
-            // Ruta dinámica para detalles (Single)
-            // :type capturará "people", "planets", etc.
-            // :uid capturará el ID (ej: "1")
+            
+            // 2. Ruta Dinámica (Detalle)
+            // Esta es la clave: ':type' recibe "people" o "planets" y ':uid' recibe el ID
             {
                 path: "/single/:type/:uid",
                 element: <Single />,
             },
-            // Ruta Demo (opcional)
+
+            // 3. Ruta Demo (Opcional)
+            // La dejamos activa para que no te dé error si el archivo existe
             {
                 path: "/demo",
                 element: <Demo />,
