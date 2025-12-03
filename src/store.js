@@ -1,46 +1,48 @@
-export const getState = ({ getStore, getActions, setStore }) => {
+// 1. Estado inicial (Tus arrays vacíos)
+export const initialStore = () => {
 	return {
-		store: {
-			people: [],
-			planets: [],
-			vehicles: [],
-			favorites: [],
-			loading: true
-		},
-		actions: {
-			loadData: async () => {
-				const API_URL = "https://www.swapi.tech/api";
-				try {
-					const [peopleRes, planetsRes, vehiclesRes] = await Promise.all([
-						fetch(`${API_URL}/people?page=1&limit=10`),
-						fetch(`${API_URL}/planets?page=1&limit=10`),
-						fetch(`${API_URL}/vehicles?page=1&limit=10`),
-					]);
-
-					const peopleData = await peopleRes.json();
-					const planetsData = await planetsRes.json();
-					const vehiclesData = await vehiclesRes.json();
-
-					setStore({
-						people: peopleData.results,
-						planets: planetsData.results,
-						vehicles: vehiclesData.results,
-						loading: false
-					});
-				} catch (error) {
-					console.error("Error loading data", error);
-				}
-			},
-			addFavorite: (item) => {
-				const store = getStore();
-				const exists = store.favorites.find(fav => fav.uid === item.uid);
-				if (exists) return;
-				setStore({ favorites: [...store.favorites, item] });
-			},
-			removeFavorite: (uid) => {
-				const store = getStore();
-				setStore({ favorites: store.favorites.filter(fav => fav.uid !== uid) });
-			}
-		}
+		people: [],
+		planets: [],
+		favorites: []
 	};
 };
+
+// 2. Reducer (La función que decide cómo cambiar el estado)
+export default function storeReducer(store, action = {}) {
+	switch (action.type) {
+		// Caso: Guardar la lista de Personajes
+		case 'set_people':
+			return {
+				...store,
+				people: action.payload // 'payload' es la data que enviamos
+			};
+
+		// Caso: Guardar la lista de Planetas
+		case 'set_planets':
+			return {
+				...store,
+				planets: action.payload
+			};
+
+		// Caso: Agregar favorito
+		case 'add_favorite':
+			// Evitar duplicados revisando el UID
+			const exists = store.favorites.find(fav => fav.uid === action.payload.uid);
+			if (exists) return store; // Si existe, devolvemos el store igual
+
+			return {
+				...store,
+				favorites: [...store.favorites, action.payload]
+			};
+
+		// Caso: Eliminar favorito
+		case 'delete_favorite':
+			return {
+				...store,
+				favorites: store.favorites.filter(fav => fav.uid !== action.payload.uid)
+			};
+
+		default:
+			throw Error('Unknown action.');
+	}
+}
