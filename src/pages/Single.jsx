@@ -33,7 +33,6 @@ export const Single = () => {
                         <hr className="my-4" />
                         
                         <p className="lead">
-                            {/* Aquí puedes agregar más detalles si haces fetch individual */}
                             Description of {item.name} from the {type} category.
                         </p>
 

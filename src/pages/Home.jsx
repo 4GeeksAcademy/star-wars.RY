@@ -56,6 +56,17 @@ export const Home = () => {
                     ))
                 )}
             </div>
+
+            <h1 className="text-danger mb-4 mt-5">Vehicles</h1>
+            <div className="d-flex overflow-auto mb-5">
+                {store.vehicles && store.vehicles.length > 0 ? (
+                    store.vehicles.map((vehicle) => (
+                        <Card key={vehicle.uid} item={vehicle} type="vehicles" />
+                    ))
+                ) : (
+                    <div className="alert alert-info">Cargando vehículos...</div>
+                )}
+            </div>
         </div>
     );
 };

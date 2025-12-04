@@ -31,6 +31,18 @@ export function StoreProvider({ children }) {
             }
         };
 
+        // Cargar Vehículos
+        const loadVehicles = async () => {
+            try {
+                const res = await fetch("https://www.swapi.tech/api/vehicles/");
+                const data = await res.json();
+                dispatch({ type: 'set_vehicles', payload: data.results });
+            } catch (error) {
+                console.error("Error cargando vehículos:", error);
+            }
+        };
+
+        loadVehicles(); 
         loadPeople();
         loadPlanets();
     }, []); 
