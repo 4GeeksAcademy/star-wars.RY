@@ -1,11 +1,13 @@
 export const initialStore = () => {
     const savedFavorites = localStorage.getItem("sw_favorites");
+    const savedTheme = localStorage.getItem("sw_theme");
     
     return {
         people: [],
         planets: [],
         vehicles: [], 
-        favorites: savedFavorites ? JSON.parse(savedFavorites) : []
+        favorites: savedFavorites ? JSON.parse(savedFavorites) : [],
+        theme: savedTheme || "light"
     };
 };
 
@@ -45,6 +47,17 @@ export default function storeReducer(store, action = {}) {
             localStorage.setItem("sw_favorites", JSON.stringify(newFavorites));
 
             return { ...store, favorites: newFavorites };
+        }
+
+        // --- NUEVO CASO: CAMBIAR TEMA ---
+        case 'toggle_theme': {
+            // Si es light cambia a dark, si es dark cambia a light
+            const newTheme = store.theme === "light" ? "dark" : "light";
+            
+            // Guardamos en el navegador
+            localStorage.setItem("sw_theme", newTheme);
+
+            return { ...store, theme: newTheme };
         }
 
         default:

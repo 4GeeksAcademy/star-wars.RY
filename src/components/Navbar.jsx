@@ -17,7 +17,19 @@ export const Navbar = () => {
                 </span>
             </Link>
             
-            <div className="ml-auto">
+            <div className="ml-auto d-flex align-items-center gap-2">
+                {/* --- BOTÓN DARK MODE --- */}
+                <button 
+                    className={`btn ${store.theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`}
+                    onClick={() => dispatch({ type: "toggle_theme" })}
+                >
+                    {/* Cambiamos el ícono según el tema */}
+                    {store.theme === "dark" ? (
+                        <i className="fas fa-sun"></i> // Sol para volver a light
+                    ) : (
+                        <i className="fas fa-moon"></i> // Luna para ir a dark
+                    )}
+                </button>
                 <div className="dropdown">
                     <button 
                         className="btn btn-primary dropdown-toggle d-flex align-items-center" 
