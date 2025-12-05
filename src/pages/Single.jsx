@@ -118,8 +118,6 @@ export const Single = () => {
                 )}
 
             </div>
-
-            {/* Botón de Volver */}
             <div className="text-center mt-5 mb-5">
                 <Link to="/">
                     <span className="btn btn-primary btn-lg" role="button">

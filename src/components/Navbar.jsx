@@ -18,16 +18,14 @@ export const Navbar = () => {
             </Link>
             
             <div className="ml-auto d-flex align-items-center gap-2">
-                {/* --- BOTÓN DARK MODE --- */}
                 <button 
                     className={`btn ${store.theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`}
                     onClick={() => dispatch({ type: "toggle_theme" })}
                 >
-                    {/* Cambiamos el ícono según el tema */}
                     {store.theme === "dark" ? (
-                        <i className="fas fa-sun"></i> // Sol para volver a light
+                        <i className="fas fa-sun"></i>
                     ) : (
-                        <i className="fas fa-moon"></i> // Luna para ir a dark
+                        <i className="fas fa-moon"></i> 
                     )}
                 </button>
                 <div className="dropdown">
@@ -48,7 +46,6 @@ export const Navbar = () => {
                         {store.favorites.length === 0 ? (
                             <li className="dropdown-item text-center">(Empty)</li>
                         ) : (
-                            // Mapeamos los favoritos
                             store.favorites.map((fav, index) => (
                                 <li key={index} className="dropdown-item d-flex justify-content-between align-items-center">
                                     <Link 

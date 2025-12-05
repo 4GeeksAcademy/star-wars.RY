@@ -49,12 +49,9 @@ export default function storeReducer(store, action = {}) {
             return { ...store, favorites: newFavorites };
         }
 
-        // --- NUEVO CASO: CAMBIAR TEMA ---
         case 'toggle_theme': {
-            // Si es light cambia a dark, si es dark cambia a light
             const newTheme = store.theme === "light" ? "dark" : "light";
             
-            // Guardamos en el navegador
             localStorage.setItem("sw_theme", newTheme);
 
             return { ...store, theme: newTheme };
